@@ -155,7 +155,7 @@ class LoginViewController: UIViewController {
     
     //MARK: - Helpers
     private func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background")
         
         view.addSubview(welcomeLabel)
         welcomeLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor)

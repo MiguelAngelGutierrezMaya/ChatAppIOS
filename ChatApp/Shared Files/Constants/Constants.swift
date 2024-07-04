@@ -15,3 +15,4 @@ var firestore: Firestore {
 }
 
 let COLLECTION_USERS = firestore.collection("users")
+let COLLECTION_MESSAGES = firestore.collection("messages")

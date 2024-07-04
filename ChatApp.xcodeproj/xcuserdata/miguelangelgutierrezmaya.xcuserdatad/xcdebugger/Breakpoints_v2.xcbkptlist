@@ -18,38 +18,6 @@
             endingLineNumber = "88"
             landmarkName = "viewDidDisappear(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "1CCEC588-22D1-4F69-959A-E72D94EFA8B8 - 7fd1f9c1560b46b4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ChatApp.RegisterViewController.viewDidLoad() -&gt; ()"
-                  moduleName = "ChatApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/miguelangelgutierrezmaya/Projects/xcode-workspace/ChatApp/ChatApp/Module/Controller/RegisterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "176">
-               </Location>
-               <Location
-                  uuid = "1CCEC588-22D1-4F69-959A-E72D94EFA8B8 - 42fdddea5edb3849"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ChatApp.RegisterViewController.viewDidDisappear(Swift.Bool) -&gt; ()"
-                  moduleName = "ChatApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/miguelangelgutierrezmaya/Projects/xcode-workspace/ChatApp/ChatApp/Module/Controller/RegisterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
