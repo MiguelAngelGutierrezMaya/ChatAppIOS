@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class ChatViewController: UICollectionViewController {
     // MARK: - Properties
@@ -25,8 +26,71 @@ class ChatViewController: UICollectionViewController {
         return view
     }()
     
-    private var currentUser: User
-    private var otherUser: User
+    lazy var imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        return picker
+    }()
+    
+    lazy var imagePickerConfig: PHPickerConfiguration = {
+        var config = PHPickerConfiguration()
+//        config.filter = .
+//        config.selectionLimit = 1
+//        let picker = PHPickerViewController(configuration: config)
+//        picker.delegate = self
+        return config
+    }()
+    
+    private lazy var attachAlert: UIAlertController = {
+        let alert = UIAlertController(
+            title: "Attach File",
+            message: "Select the button you want to attach from",
+            preferredStyle: .actionSheet
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "Camera", 
+                style: .default,
+                handler: { _ in
+                    self.handleCamera()
+                }
+            )
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "Gallery",
+                style: .default,
+                handler: { _ in
+                    self.handleGallery()
+                }
+            )
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "Location",
+                style: .default,
+                handler: { _ in
+                    print("Location")
+                }
+            )
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "cancel",
+                style: .cancel
+            )
+        )
+        
+        return alert
+    }()
+    
+    var currentUser: User
+    var otherUser: User
     
     
     // MARK: - Lifecycle
@@ -181,6 +245,7 @@ extension ChatViewController {
         ) as! ChatCell
         let message = messages[indexPath.section][indexPath.row]
         cell.viewModel = MessageViewModel(message: message)
+        cell.delegate = self
         //let message = messages[indexPath.row]
         // cell.configure(text: message)
         return cell
@@ -246,6 +311,11 @@ extension ChatViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - CustomInputViewDelegate
 extension ChatViewController: CustomInputViewDelegate {
+    
+    func inputViewForAttach(_ view: CustomInputView) {
+        present(attachAlert, animated: true)
+    }
+    
     func inputView(_ view: CustomInputView, wantUploadMessage message: String) {
         MessageServices.fetchSingleRecentMessage(otherUser: otherUser) { [self] unreadCount in
             MessageServices.uploadMessage(
@@ -257,5 +327,9 @@ extension ChatViewController: CustomInputViewDelegate {
         }
         
         view.clearTextView()
+    }
+    
+    func inputViewForAudio(_ view: CustomInputView, audioURL: URL) {
+        print("Audio")
     }
 }

@@ -55,6 +55,26 @@ struct MessageViewModel {
         return URL(string: message.profileImageUrl)
     }
     
+    var imageURL: URL? {
+        return URL(string: message.imageUrl)
+    }
+    
+    var videoURL: URL? {
+        return URL(string: message.videoUrl)
+    }
+    
+    var isImageHide: Bool {
+        return message.imageUrl.isEmpty
+    }
+    
+    var isTextHide: Bool {
+        return !message.imageUrl.isEmpty
+    }
+    
+    var isVideoHide: Bool {
+        return message.videoUrl.isEmpty
+    }
+    
     var timestampString: String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm a"

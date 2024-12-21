@@ -7,8 +7,15 @@
 
 import UIKit
 
+protocol ChatCellDelegate: AnyObject {
+    func cell(wantsToPlayVideo cell: ChatCell, videoURL: URL?)
+    func cell(wantsToShowImage cell: ChatCell, image: URL?)
+}
+
 class ChatCell: UICollectionViewCell {
     // MARK: - Properties
+    weak var delegate: ChatCellDelegate?
+    
     var viewModel: MessageViewModel? {
         didSet { configure() }
     }
@@ -48,6 +55,30 @@ class ChatCell: UICollectionViewCell {
         tv.textColor = .black
         tv.font = .systemFont(ofSize: 16)
         return tv
+    }()
+    
+    private lazy var postImage: CustomImage = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleImage))
+        let image = CustomImage()
+        image.isHidden = true
+        
+        image.addGestureRecognizer(tap)
+        image.isUserInteractionEnabled = true
+        return image
+    }()
+    
+    private lazy var postVideo: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+        button.tintColor = .white
+        button.isHidden = true
+        button.setTitle("Play video", for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(handleVideoButton),
+            for: .touchUpInside
+        )
+        return button
     }()
     
     // MARK: - Lifecycle
@@ -105,6 +136,30 @@ class ChatCell: UICollectionViewCell {
         dateRightAnchor.isActive = false
         
         dateLabel.anchor(bottom: bottomAnchor)
+        
+        addSubview(postImage)
+        postImage.anchor(
+            top: bubbleContainer.topAnchor,
+            left: bubbleContainer.leftAnchor,
+            bottom: bubbleContainer.bottomAnchor,
+            right: bubbleContainer.rightAnchor,
+            paddingTop: 4,
+            paddingLeft: 12,
+            paddingBottom: 4,
+            paddingRight: 12
+        )
+        
+        addSubview(postVideo)
+        postVideo.anchor(
+            top: bubbleContainer.topAnchor,
+            left: bubbleContainer.leftAnchor,
+            bottom: bubbleContainer.bottomAnchor,
+            right: bubbleContainer.rightAnchor,
+            paddingTop: 4,
+            paddingLeft: 12,
+            paddingBottom: 4,
+            paddingRight: 12
+        )
     }
     
     required init?(coder: NSCoder) {
@@ -127,5 +182,25 @@ class ChatCell: UICollectionViewCell {
         
         guard let timestamp = viewModel.timestampString else { return }
         dateLabel.text = timestamp
+        
+        postImage.sd_setImage(with: viewModel.imageURL)
+        textView.isHidden = viewModel.isTextHide
+        postImage.isHidden = viewModel.isImageHide
+        postVideo.isHidden = viewModel.isVideoHide
+        
+        if !viewModel.isImageHide {
+            postImage.isHidden = false
+            postImage.setHeight(200)
+        }
+    }
+    
+    @objc func handleVideoButton() {
+        guard let videoURL = viewModel?.videoURL else { return }
+        delegate?.cell(wantsToPlayVideo: self, videoURL: videoURL)
+    }
+    
+    @objc func handleImage() {
+        guard let imageURL = viewModel?.imageURL else { return }
+        delegate?.cell(wantsToShowImage: self, image: imageURL)
     }
 }

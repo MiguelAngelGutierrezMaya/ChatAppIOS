@@ -23,6 +23,8 @@ struct Message {
     let username: String
     let fullname: String
     let profileImageUrl: String
+    let imageUrl: String
+    let videoUrl: String
     
     var isFromCurrentUser: Bool
     
@@ -43,5 +45,7 @@ struct Message {
         
         self.isFromCurrentUser = fromId == auth.currentUser?.uid
         self.new_msg = dictionary["new_msg"] as? Int ?? 0
+        self.imageUrl = dictionary["imageUrl"] as? String ?? ""
+        self.videoUrl = dictionary["videoUrl"] as? String ?? ""
     }
 }
