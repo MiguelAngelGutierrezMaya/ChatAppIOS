@@ -59,8 +59,10 @@ struct MessageServices {
     
     static func uploadMessage(
         message: String = "",
-        imageURl: String = "",
+        imageUrl: String = "",
         videoUrl: String = "",
+        audioUrl: String = "",
+        locationUrl: String = "",
         currentUser: User,
         otherUser: User,
         unreadCount: Int,
@@ -75,8 +77,10 @@ struct MessageServices {
             "fullname": otherUser.fullname,
             "profileImageUrl": otherUser.profileImageURL,
             "new_msg": 0,
-            "imageUrl": imageURl,
-            "videoUrl": videoUrl
+            "imageUrl": imageUrl,
+            "videoUrl": videoUrl,
+            "audioUrl": audioUrl,
+            "locationUrl": locationUrl
         ]
         
         let dataTo: [String: Any] = [
@@ -88,8 +92,10 @@ struct MessageServices {
             "fullname": currentUser.fullname,
             "profileImageUrl": currentUser.profileImageURL,
             "new_msg": unreadCount,
-            "imageUrl": imageURl,
-            "videoUrl": videoUrl
+            "imageUrl": imageUrl,
+            "videoUrl": videoUrl,
+            "audioUrl": audioUrl,
+            "locationUrl": locationUrl
         ]
         
         COLLECTION_MESSAGES

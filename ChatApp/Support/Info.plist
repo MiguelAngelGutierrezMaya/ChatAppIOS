@@ -2,8 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need to access the location to send it to the chat</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need to access the location to send it to the chat</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need to access the location to send it to the chat</string>
 	<key>NSDocumentsFolderUsageDescription</key>
-	<string>I need use to folder document to copy items</string>
+	<string>We need use to folder document to copy items</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access your mic to hear your beatuful voice</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

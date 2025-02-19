@@ -20,6 +20,7 @@ target 'ChatApp' do
   pod 'SDWebImage', '~>4.4.2'
   
   pod 'ImageSlideshow', '~> 1.9'
+  pod 'SwiftAudioPlayer'
   
   # Factory
   pod "Factory"

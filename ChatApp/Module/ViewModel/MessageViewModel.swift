@@ -63,6 +63,10 @@ struct MessageViewModel {
         return URL(string: message.videoUrl)
     }
     
+    var audioURL: URL? {
+        return URL(string: message.audioUrl)
+    }
+    
     var isImageHide: Bool {
         return message.imageUrl.isEmpty
     }
@@ -73,6 +77,10 @@ struct MessageViewModel {
     
     var isVideoHide: Bool {
         return message.videoUrl.isEmpty
+    }
+    
+    var isAudioHide: Bool {
+        return message.audioUrl.isEmpty
     }
     
     var timestampString: String? {

@@ -15,6 +15,8 @@
 		1C0A8D972AA1A94C003C08DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C0A8D952AA1A94C003C08DC /* LaunchScreen.storyboard */; };
 		1C0A8DA72AA1AAB8003C08DC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A8DA62AA1AAB8003C08DC /* LoginViewController.swift */; };
 		1C0A8DA92AA1AB8E003C08DC /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A8DA82AA1AB8E003C08DC /* RegisterViewController.swift */; };
+		A4162C052D6623CC00894975 /* Times Square.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A4162C042D6623CC00894975 /* Times Square.gpx */; };
+		A4162C072D6629AE00894975 /* FLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4162C062D6629AE00894975 /* FLocationManager.swift */; };
 		A434BCEB2C559CF000E3BAB3 /* ChatHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A434BCEA2C559CF000E3BAB3 /* ChatHeader.swift */; };
 		A434BCED2C55A25F00E3BAB3 /* CollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A434BCEC2C55A25F00E3BAB3 /* CollectionViews.swift */; };
 		A43B0DE62B6F4C7200D77F9D /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A43B0DE52B6F4C7200D77F9D /* NewChatViewController.swift */; };
@@ -69,6 +71,8 @@
 		1C0A8D982AA1A94C003C08DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C0A8DA62AA1AAB8003C08DC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1C0A8DA82AA1AB8E003C08DC /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		A4162C042D6623CC00894975 /* Times Square.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Times Square.gpx"; sourceTree = "<group>"; };
+		A4162C062D6629AE00894975 /* FLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FLocationManager.swift; sourceTree = "<group>"; };
 		A434BCEA2C559CF000E3BAB3 /* ChatHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHeader.swift; sourceTree = "<group>"; };
 		A434BCEC2C55A25F00E3BAB3 /* CollectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViews.swift; sourceTree = "<group>"; };
 		A43B0DE52B6F4C7200D77F9D /* NewChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 		1C0A8D9E2AA1A96B003C08DC /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				A4162C032D66238F00894975 /* Fake Locations */,
 				1C0A8D8A2AA1A94B003C08DC /* AppDelegate.swift */,
 				1C0A8D8C2AA1A94B003C08DC /* SceneDelegate.swift */,
 				1C0A8D8E2AA1A94B003C08DC /* ViewController.swift */,
@@ -255,6 +260,14 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		A4162C032D66238F00894975 /* Fake Locations */ = {
+			isa = PBXGroup;
+			children = (
+				A4162C042D6623CC00894975 /* Times Square.gpx */,
+			);
+			path = "Fake Locations";
+			sourceTree = "<group>";
+		};
 		A44AF9E02B470DA700A7218A /* FirebaseHelpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +279,7 @@
 		A4B020BF2AFA6A7B00F7F9AE /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				A4162C062D6629AE00894975 /* FLocationManager.swift */,
 				A4B020C02AFA6A9700F7F9AE /* CustomTextField.swift */,
 				A4B020C22AFA717B00F7F9AE /* CustomButton.swift */,
 				A474B5C02B0B8B1E00D6F23C /* CustomLabel.swift */,
@@ -391,6 +405,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4162C052D6623CC00894975 /* Times Square.gpx in Resources */,
 				1C0A8D972AA1A94C003C08DC /* LaunchScreen.storyboard in Resources */,
 				A4A159102B2206CB00868505 /* GoogleService-Info.plist in Resources */,
 				1C0A8D942AA1A94C003C08DC /* Assets.xcassets in Resources */,
@@ -456,6 +471,7 @@
 				1C0A8DA72AA1AAB8003C08DC /* LoginViewController.swift in Sources */,
 				A434BCEB2C559CF000E3BAB3 /* ChatHeader.swift in Sources */,
 				A4BF43402B2B40280058FC9E /* AuthServices.swift in Sources */,
+				A4162C072D6629AE00894975 /* FLocationManager.swift in Sources */,
 				A47BDAA42B67685E00948755 /* SplashVC.swift in Sources */,
 				A44AF9DD2B46FEB600A7218A /* FileUploader.swift in Sources */,
 				A474B5C12B0B8B1E00D6F23C /* CustomLabel.swift in Sources */,

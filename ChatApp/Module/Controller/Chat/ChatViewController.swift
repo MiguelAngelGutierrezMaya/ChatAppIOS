@@ -7,12 +7,16 @@
 
 import UIKit
 import PhotosUI
+import AVFoundation
 
 class ChatViewController: UICollectionViewController {
     // MARK: - Properties
     private let reuseIdentifier = "ChatCell"
     private let chatHeaderIdentifier = "ChatHeader"
     private var messages: [[Message]] = []
+    
+    var player: AVPlayer?
+    var currentCellAudioSubscribed: ChatCell?
     
     private lazy var customInputView: CustomInputView = {
         let frame = CGRect(
@@ -35,10 +39,10 @@ class ChatViewController: UICollectionViewController {
     
     lazy var imagePickerConfig: PHPickerConfiguration = {
         var config = PHPickerConfiguration()
-//        config.filter = .
-//        config.selectionLimit = 1
-//        let picker = PHPickerViewController(configuration: config)
-//        picker.delegate = self
+        //        config.filter = .
+        //        config.selectionLimit = 1
+        //        let picker = PHPickerViewController(configuration: config)
+        //        picker.delegate = self
         return config
     }()
     
@@ -51,7 +55,7 @@ class ChatViewController: UICollectionViewController {
         
         alert.addAction(
             UIAlertAction(
-                title: "Camera", 
+                title: "Camera",
                 style: .default,
                 handler: { _ in
                     self.handleCamera()
@@ -74,7 +78,7 @@ class ChatViewController: UICollectionViewController {
                 title: "Location",
                 style: .default,
                 handler: { _ in
-                    print("Location")
+                    self.present(self.locationAlert, animated: true)
                 }
             )
         )
@@ -88,6 +92,44 @@ class ChatViewController: UICollectionViewController {
         
         return alert
     }()
+    
+    private lazy var locationAlert: UIAlertController = {
+       let alert = UIAlertController(
+            title: "Share Location",
+            message: "Select the button you want to share location from",
+            preferredStyle: .actionSheet
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "Current Location",
+                style: .default,
+                handler: { _ in
+                    self.handleCurrentLocation()
+                }
+            )
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "Google Map",
+                style: .default,
+                handler: { _ in
+                    self.handleGoogleMapsLocation()
+                }
+            )
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "cancel",
+                style: .cancel
+            )
+        )
+        
+        return alert
+    }()
+        
     
     var currentUser: User
     var otherUser: User
@@ -330,6 +372,25 @@ extension ChatViewController: CustomInputViewDelegate {
     }
     
     func inputViewForAudio(_ view: CustomInputView, audioURL: URL) {
-        print("Audio")
+        self.showLoader(true)
+        FileUploader.uploadAudio(audioURL: audioURL) { audioString in
+            MessageServices.fetchSingleRecentMessage(
+                otherUser: self.otherUser
+            ) { unreadCount in
+                MessageServices.uploadMessage(
+                    audioUrl: audioString,
+                    currentUser: self.currentUser,
+                    otherUser: self.otherUser,
+                    unreadCount: unreadCount
+                ) { error in
+                    self.showLoader(false)
+                    
+                    if let error = error {
+                        print("Error uploading audio: \(error.localizedDescription)")
+                        return
+                    }
+                }
+            }
+        }
     }
 }

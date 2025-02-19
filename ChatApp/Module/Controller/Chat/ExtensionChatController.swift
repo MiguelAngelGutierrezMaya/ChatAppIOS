@@ -9,6 +9,8 @@ import UIKit
 import PhotosUI
 import SDWebImage
 import ImageSlideshow
+import AVFoundation
+//import SwiftAudioPlayer
 
 extension ChatViewController {
     @objc func handleCamera() {
@@ -38,6 +40,41 @@ extension ChatViewController {
         
         DispatchQueue.main.async {
             self.present(picker, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func handleCurrentLocation() {
+        FLocationManager.shared.start { info in
+            print("Latitude: \(info.latitude ?? 0.0)")
+            print("Longitude: \(info.longitude ?? 0.0)")
+            
+            guard let lat = info.latitude, let lng = info.longitude else { return }
+            
+            self.uploadLocation(lat: "\(lat)", lng: "\(lng)")
+        }
+    }
+    
+    @objc func handleGoogleMapsLocation() {
+        print("Google Maps location")
+    }
+    
+    private func uploadLocation(lat: String, lng: String) {
+        let locationUrl = "https://www.google.com/maps/dir/?api=1&destination=\(lat),\(lng)"
+
+        self.showLoader(true)
+        MessageServices.fetchSingleRecentMessage(
+            otherUser: otherUser
+        ) { unreadCount in
+            MessageServices.uploadMessage(
+                locationUrl: locationUrl,
+                currentUser: self.currentUser,
+                otherUser: self.otherUser,
+                unreadCount: unreadCount) { error in
+                    if let error = error {
+                        print("Error uploading location: \(error.localizedDescription)")
+                    }
+                    self.showLoader(false)
+                }
         }
     }
 }
@@ -117,7 +154,7 @@ extension ChatViewController {
         FileUploader.uploadImage(image: image) { imageURL in
             MessageServices.fetchSingleRecentMessage(otherUser: self.otherUser) { unreadCount in
                 MessageServices.uploadMessage(
-                    imageURl: imageURL,
+                    imageUrl: imageURL,
                     currentUser: self.currentUser,
                     otherUser: self.otherUser,
                     unreadCount: unreadCount + 1
@@ -164,7 +201,6 @@ extension ChatViewController {
                 self.showLoader(false)
             }
         }
-        
     }
 }
 
@@ -194,5 +230,67 @@ extension ChatViewController: ChatCellDelegate {
             let controller = slideShow.presentFullScreenController(from: self)
             controller.slideshow.activityIndicator = DefaultActivityIndicator()
         }
+    }
+    
+    func cell(
+        wantsToPlayAudio cell: ChatCell,
+        audioURL: URL?,
+        play: Bool
+    ) {
+        if play {
+            guard let audioURL = audioURL else { return }
+            
+            // Create the player
+            let asset = AVAsset(url: audioURL)
+            let playerItem = AVPlayerItem(asset: asset)
+            player = AVPlayer(playerItem: playerItem)
+            
+            // Verify if exist a cell subscribed
+            if currentCellAudioSubscribed != nil {
+                unsubscribeFromPlayerEndNotification()
+                currentCellAudioSubscribed?.resetAudioSettings()
+            }
+            
+            subscribeToPlayerEndNotification(playerItem: playerItem)
+            
+            currentCellAudioSubscribed = cell
+            
+            player?.play()
+            
+            //        SAPlayer.shared.startRemoteAudio(withRemoteUrl: audioURL)
+            //        SAPlayer.shared.play()
+        } else {
+            player?.pause()
+            resetPlayer()
+        }
+    }
+    
+    private func subscribeToPlayerEndNotification(playerItem: AVPlayerItem) {
+        // Add new subscription
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(restartPlayer),
+            name: .AVPlayerItemDidPlayToEndTime,
+            object: playerItem
+        )
+    }
+    
+    @objc private func restartPlayer() {
+        currentCellAudioSubscribed?.resetAudioSettings()
+        resetPlayer()
+    }
+    
+    private func resetPlayer() {
+        player = nil
+        currentCellAudioSubscribed = nil
+        unsubscribeFromPlayerEndNotification()
+    }
+    
+    private func unsubscribeFromPlayerEndNotification() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: .AVPlayerItemDidPlayToEndTime,
+            object: nil
+        )
     }
 }

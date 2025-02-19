@@ -333,6 +333,13 @@
 			<key>orderHint</key>
 			<integer>57</integer>
 		</dict>
+		<key>SwiftAudioPlayer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>58</integer>
+		</dict>
 		<key>abseil-xcprivacy.xcscheme</key>
 		<dict>
 			<key>isShown</key>

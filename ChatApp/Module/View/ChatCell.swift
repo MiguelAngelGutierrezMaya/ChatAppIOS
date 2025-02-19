@@ -10,6 +10,7 @@ import UIKit
 protocol ChatCellDelegate: AnyObject {
     func cell(wantsToPlayVideo cell: ChatCell, videoURL: URL?)
     func cell(wantsToShowImage cell: ChatCell, image: URL?)
+    func cell(wantsToPlayAudio cell: ChatCell, audioURL: URL?, play: Bool)
 }
 
 class ChatCell: UICollectionViewCell {
@@ -72,7 +73,7 @@ class ChatCell: UICollectionViewCell {
         button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         button.tintColor = .white
         button.isHidden = true
-        button.setTitle("Play video", for: .normal)
+        button.setTitle(" Play video", for: .normal)
         button.addTarget(
             self,
             action: #selector(handleVideoButton),
@@ -80,6 +81,22 @@ class ChatCell: UICollectionViewCell {
         )
         return button
     }()
+    
+    private lazy var postAudio: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.tintColor = .white
+        button.isHidden = true
+        button.setTitle(" Play Audio", for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(handleAudioButton),
+            for: .touchUpInside
+        )
+        return button
+    }()
+    
+    var play: Bool = true
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -160,6 +177,18 @@ class ChatCell: UICollectionViewCell {
             paddingBottom: 4,
             paddingRight: 12
         )
+        
+        addSubview(postAudio)
+        postAudio.anchor(
+            top: bubbleContainer.topAnchor,
+            left: bubbleContainer.leftAnchor,
+            bottom: bubbleContainer.bottomAnchor,
+            right: bubbleContainer.rightAnchor,
+            paddingTop: 4,
+            paddingLeft: 12,
+            paddingBottom: 4,
+            paddingRight: 12
+        )
     }
     
     required init?(coder: NSCoder) {
@@ -187,6 +216,7 @@ class ChatCell: UICollectionViewCell {
         textView.isHidden = viewModel.isTextHide
         postImage.isHidden = viewModel.isImageHide
         postVideo.isHidden = viewModel.isVideoHide
+        postAudio.isHidden = viewModel.isAudioHide
         
         if !viewModel.isImageHide {
             postImage.isHidden = false
@@ -202,5 +232,29 @@ class ChatCell: UICollectionViewCell {
     @objc func handleImage() {
         guard let imageURL = viewModel?.imageURL else { return }
         delegate?.cell(wantsToShowImage: self, image: imageURL)
+    }
+    
+    @objc func handleAudioButton() {
+        guard let audioURL = viewModel?.audioURL else { return }
+        
+        delegate?.cell(
+            wantsToPlayAudio: self,
+            audioURL: audioURL,
+            play: play
+        )
+        
+        play.toggle()
+        
+        let title = play ? " Play Audio" : " Stop Audio"
+        let imageName = play ? "play.fill" : "stop.fill"
+        
+        postAudio.setTitle(title, for: .normal)
+        postAudio.setImage(UIImage(systemName: imageName), for: .normal)
+    }
+    
+    func resetAudioSettings() {
+        postAudio.setTitle(" Play Audio", for: .normal)
+        postAudio.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        play = true
     }
 }

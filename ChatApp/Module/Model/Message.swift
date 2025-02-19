@@ -25,6 +25,8 @@ struct Message {
     let profileImageUrl: String
     let imageUrl: String
     let videoUrl: String
+    let audioUrl: String
+    let locationUrl: String
     
     var isFromCurrentUser: Bool
     
@@ -47,5 +49,7 @@ struct Message {
         self.new_msg = dictionary["new_msg"] as? Int ?? 0
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""
         self.videoUrl = dictionary["videoUrl"] as? String ?? ""
+        self.audioUrl = dictionary["audioUrl"] as? String ?? ""
+        self.locationUrl = dictionary["locationUrl"] as? String ?? ""
     }
 }
